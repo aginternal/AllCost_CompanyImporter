@@ -52,6 +52,7 @@ namespace DbImporterAllCost.Utils
             //docs
             ImportArtigoMoedas(connStr);
             ImportTiposDocumento(connStr);
+            ImportSeries(connStr);
             ImportDocumentos(connStr);
             ImportDocumentosDetalhe(connStr);
         }
@@ -77,6 +78,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -114,6 +116,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -153,6 +156,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -190,6 +194,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -216,7 +221,7 @@ namespace DbImporterAllCost.Utils
                 
                 INSERT INTO [{this.OurName}].[dbo].[CRM_TIPOS_ARTIGO](Codigo, Tipo, IsServico)
                 SELECT * FROM OPENQUERY([192.168.1.221, 58681\SVSQL\PRILEV100], 'select TipoArtigo, Descricao, 0 from [{this.PriName}].[dbo].[TiposArtigo]')
-                UPDATE [{this.OurName}].[dbo].[CRM_TIPOS_ARTIGO] SET IsServico = 1 WHERE Codigo = 0 or Codigo = 1 or or Codigo = 2
+                UPDATE [{this.OurName}].[dbo].[CRM_TIPOS_ARTIGO] SET IsServico = 1 WHERE Codigo = 0 or Codigo = 1 or Codigo = 2
 
                 COMMIT TRANSACTION;
             ";
@@ -229,6 +234,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -266,6 +272,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -303,6 +310,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -342,6 +350,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -379,6 +388,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -425,6 +435,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -462,6 +473,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -485,10 +497,10 @@ namespace DbImporterAllCost.Utils
 
                 TRUNCATE TABLE [{this.OurName}].[dbo].[CRM_CORES]
                 
-                INSERT INTO [{this.OurName}].[dbo].[CRM_CORES](Codigo, Ordem, Descricao, TipoCorId)
-                SELECT C.RubDim, C.Ordem, C.Descricao, TC.Id FROM 
+                INSERT INTO [{this.OurName}].[dbo].[CRM_CORES](Codigo, Ordem, Descricao, TipoCorId, TipoCor)
+                SELECT C.RubDim, C.Ordem, C.Descricao, TC.Id, TC.Codigo FROM 
                 OPENQUERY([192.168.1.221, 58681\SVSQL\PRILEV100], 'select LD.RubDim, LD.Ordem, LD.Descricao, LD.Dimensao from [{this.PriName}].[dbo].[Dimensao] D inner join [{this.PriName}].[dbo].[LinhasDimensao] LD on LD.Dimensao = D.Dimensao where TipoDim = ''201'' or TipoDim = ''COR''') C
-                left join CRM_TIPOS_COR TC on C.Dimensao = TC.Codigo
+                left join [{this.OurName}].[dbo].[CRM_TIPOS_COR] TC on C.Dimensao = TC.Codigo
 
                 COMMIT TRANSACTION;
             ";
@@ -501,6 +513,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -538,6 +551,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -575,6 +589,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -598,8 +613,8 @@ namespace DbImporterAllCost.Utils
 
                 TRUNCATE TABLE [{this.OurName}].[dbo].[CRM_TAMANHOS]
                 
-                INSERT INTO [{this.OurName}].[dbo].[CRM_TAMANHOS](Codigo, Ordem, Descricao, TipoTamanhoId)
-                SELECT T.RubDim, T.Ordem, T.Descricao, TT.Id FROM 
+                INSERT INTO [{this.OurName}].[dbo].[CRM_TAMANHOS](Codigo, Ordem, Descricao, TipoTamanhoId, TipoTamanho)
+                SELECT T.RubDim, T.Ordem, T.Descricao, TT.Id, TT.Codigo FROM 
                 OPENQUERY([192.168.1.221, 58681\SVSQL\PRILEV100], 'select LD.RubDim, LD.Ordem, LD.Descricao, LD.Dimensao from [{this.PriName}].[dbo].[Dimensao] D inner join [{this.PriName}].[dbo].[LinhasDimensao] LD on LD.Dimensao = D.Dimensao where TipoDim = ''200'' or TipoDim = ''TAM''') T
                 left join [{this.OurName}].[dbo].[CRM_TIPOS_TAMANHO] TT on TT.Codigo = T.Dimensao
 
@@ -614,6 +629,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -651,6 +667,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -672,8 +689,8 @@ namespace DbImporterAllCost.Utils
             string query = $@"
                 BEGIN TRANSACTION;
 
-                TRUNCATE TABLE [{this.OurName}].[dbo].[CRM_ARTIGO]
-                
+                DELETE FROM [{this.OurName}].[dbo].[CRM_ARTIGO]
+
                 INSERT INTO [{this.OurName}].[dbo].[CRM_ARTIGO](codigo_artigo, artigo, artigo_pai, descricao, descricao_abreviada, ultimo_custo, iva_compra, iva_venda, iva_compra_id, iva_venda_id, stock,
                 custo_padrao, preco_venda, data_upd, observacoes, tipo_artigo, tipo_artigo_id, unidade, unidade_id, isactive, stock_minimo, isservice, margem, preco_venda_liquido,
                 tem_gestao, has_familia, familia, has_subfamilia, subfamilia, has_marca, marca, has_modelo, modelo, has_composicao, composicao, has_certificacao, certificacao,
@@ -703,6 +720,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -740,6 +758,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -777,6 +796,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -814,6 +834,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -851,6 +872,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -912,6 +934,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -952,6 +975,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -1007,6 +1031,63 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
+                        command.ExecuteNonQuery();
+                    }
+
+                    connection.Close();
+                }
+
+                var log = new DbImportationLog("CRM_TIPO_DOCUMENTO", "SUCCESS", "");
+                log.Commit(connStr);
+            }
+            catch (Exception ex)
+            {
+                var log = new DbImportationLog("CRM_TIPO_DOCUMENTO", "FAILED", ex.Message);
+                log.Commit(connStr);
+            }
+        }
+
+        private void ImportSeries(string connStr)
+        {
+            string query = $@"
+                BEGIN TRANSACTION;
+
+                TRUNCATE TABLE [{this.OurName}].[dbo].[CRM_SERIE_DOCUMENTO]
+                
+                INSERT INTO [{this.OurName}].[dbo].[CRM_SERIE_DOCUMENTO](ERPID, SERIE, TIPODOCUMENTOID, SETORERP, LOJAID, LAYOUTID)
+                SELECT S.Serie as Se, Serie as SSe, TD.ID, S.Descricao, 0, ''
+                FROM OPENQUERY([192.168.1.221, 58681\SVSQL\PRILEV100], '
+                	select * from (
+                		select Serie, TipoDoc, Descricao, ''C'' as Modulo from [{this.PriName}].[dbo].[SeriesCompras]
+                	
+                		union all
+                	
+                		select Serie, TipoDoc, Descricao, ''V'' as Modulo from [{this.PriName}].[dbo].[SeriesVendas]
+                		
+                		union all
+                	
+                		select Serie, TipoDoc, Descricao, ''I'' as Modulo from [{this.PriName}].[dbo].[SeriesInternos]
+                		
+                		union all
+                	
+                		select Serie, TipoDoc, Descricao, ''T'' as Modulo from [{this.PriName}].[dbo].[SeriesTesouraria]
+                	) S
+                ') S
+                left join [{this.OurName}].[dbo].[CRM_TIPO_DOCUMENTO] TD on TD.CODIGOERP = S.TipoDoc and TD.MODULO = S.Modulo
+
+                COMMIT TRANSACTION;
+            ";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connStr))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -1091,6 +1172,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 
@@ -1157,6 +1239,7 @@ namespace DbImporterAllCost.Utils
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
 

@@ -12,9 +12,12 @@ var defaultFisicalPath = @"C:\Program Files\Microsoft SQL Server\MSSQL16.ALLCOST
 try
 {
     // vamos dar loop por esta variavel e fzr as operações necessárias para cada obj na lista
-    var dbInfos = SQLInteractor.GetAllDbInfos(connStr);
+    //var dbInfos = SQLInteractor.GetAllDbInfos(connStr);
 
-    SQLInteractor.RestoreDataBase("test", connStr, bakFile, defaultFisicalPath, defaultFisicalPath);
+    //SQLInteractor.RestoreDataBase("test", connStr, bakFile, defaultFisicalPath, defaultFisicalPath);
+
+    //SQLInteractor.GiveAccesses("test", "PRIALLCOST22", "test", connStr);
+
     SQLInteractor.ImportAllData("PRIALLCOST22", connStr, "test");
 
 }

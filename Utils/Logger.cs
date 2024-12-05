@@ -33,6 +33,8 @@ namespace DbImporterAllCost.Utils
 
                         command.ExecuteNonQuery();
                     }
+
+                    connection.Close();
                 }
             }
             catch (Exception ex)
